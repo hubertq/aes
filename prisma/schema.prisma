@@ -1,0 +1,144 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email         String    @unique(map: "user_email_idx")
+  name          String    @default("NO_NAME")
+  phone         String?
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  sessions      Session[]
+  accounts      Account[]
+  logs          Log[]
+  leads         Lead[]
+
+  role       String?
+  banned     Boolean?
+  banReason  String?
+  banExpires DateTime?
+
+  @@map("user")
+}
+
+model Lead {
+  id           String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  firstName    String
+  lastName     String?
+  email        String?    @unique(map: "lead_email_idx")
+  phone        String?
+  company      String?
+  jobTitle     String?
+  source       String? // e.g. "webform", "import", "campaign"
+  status       LeadStatus @default(NEW)
+  notes        String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  assignedToId String?    @db.Uuid
+  assignedTo   User?      @relation(fields: [assignedToId], references: [id])
+
+  @@map("lead")
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  UNQUALIFIED
+}
+
+model Log {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  level     LogLevel
+  type      LogType
+  message   String
+  ip        String?
+  metadata  Json?
+  userId    String?  @db.Uuid
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+
+  @@map("log")
+}
+
+enum LogLevel {
+  INFO
+  WARN
+  ERROR
+  DEBUG
+}
+
+enum LogType {
+  LOGIN
+  LOGOUT
+  SIGNUP
+  PAGE_VIEW
+  FORM_SUBMIT
+  PROFILE_UPDATE
+  ITEM_PURCHASE
+  SYSTEM
+  CUSTOM
+}
+
+model Session {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  expiresAt   DateTime
+  token       String
+  createdAt   DateTime
+  updatedAt   DateTime
+  ipAddress   String?
+  country     String?
+  region      String?
+  city        String?
+  countryFlag String?
+  userAgent   String?
+  userId      String   @db.Uuid
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  impersonatedBy String?
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  accountId             String
+  providerId            String
+  userId                String    @db.Uuid
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@index([identifier])
+  @@map("verification")
+}
