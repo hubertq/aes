@@ -4,8 +4,6 @@ import AddButton from '@/components/shared/add-button'
 // import { leadsColumns } from './leads-columns'
 // import { fetchLeads } from '@/lib/data/leads.data'
 import TestTable from './test-table'
-// import { getUsers } from '@/lib/data/users'
-// import UsersTableColumns from '@/components/admin/users/table/users-table-columns'
 
 export const metadata: Metadata = {
 	title: 'Leads management',

@@ -1,7 +1,7 @@
 import { APP_NAME } from '@/constants/app.constants'
 import { betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
-import { prisma } from '@/db/prisma'
+import prisma from '@/db/prisma'
 import { nextCookies } from 'better-auth/next-js'
 import { admin } from 'better-auth/plugins'
 import { ac, roles } from './permissions'

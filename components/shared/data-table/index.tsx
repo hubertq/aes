@@ -14,7 +14,7 @@ import {
 } from '@tanstack/react-table'
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Input } from '@/components/ui/input'
+// import { Input } from '@/components/ui/input'
 import { Pagination } from './pagination'
 import { ViewOptions } from './view-options'
 
@@ -51,12 +51,12 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 	return (
 		<div className='flex flex-col gap-y-3'>
 			<div className='flex items-center'>
-				<Input
+				{/* <Input
 					placeholder='Filter emails...'
 					value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
 					onChange={event => table.getColumn('email')?.setFilterValue(event.target.value)}
 					className='max-w-sm'
-				/>
+				/> */}
 
 				<ViewOptions table={table} />
 			</div>

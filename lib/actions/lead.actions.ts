@@ -1,7 +1,7 @@
 'use server'
 
 import { IAddLead } from '@/types/leads.types'
-import { prisma } from '@/db/prisma'
+import prisma from '@/db/prisma'
 import { revalidatePath } from 'next/cache'
 import { formatError } from '../utils'
 

@@ -62,6 +62,7 @@ export const leadsColumns: ColumnDef<Lead>[] = [
 				title='Phone'
 			/>
 		),
+		cell: ({ row }) => <span>{row.original.phone}</span>,
 	},
 	{
 		accessorKey: 'status',
