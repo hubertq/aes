@@ -3,8 +3,8 @@ import AddButton from '@/components/shared/add-button'
 // import { DataTable } from '@/components/shared/data-table'
 // import { leadsColumns } from './leads-columns'
 import { fetchLeads } from '@/lib/data/leads.data'
-import TestTable from './test-table'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+// import TestTable from './test-table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
 export const metadata: Metadata = {
 	title: 'Leads management',
@@ -28,7 +28,6 @@ const LeadsPage = async () => {
 			{/* <TestTable /> */}
 
 			<Table>
-				<TableCaption>A list of leads</TableCaption>
 				<TableHeader>
 					<TableRow>
 						<TableHead>First name</TableHead>
