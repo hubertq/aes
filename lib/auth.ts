@@ -14,6 +14,39 @@ export const auth = betterAuth({
 	emailAndPassword: {
 		enabled: true,
 	},
+	session: {
+		cookieCache: {
+			enabled: true,
+			maxAge: 5 * 60,
+		},
+		additionalFields: {
+			country: {
+				type: 'string',
+				required: false,
+			},
+			region: {
+				type: 'string',
+				required: false,
+			},
+			city: {
+				type: 'string',
+				required: false,
+			},
+			countryFlag: {
+				type: 'string',
+				required: false,
+			},
+		},
+	},
+	advanced: {
+		ipAddress: {
+			ipAddressHeaders: ['x-client-ip', 'x-forwarded-for'], // Headers to check for IP address
+			disableIpTracking: false, // Ensure IP tracking is enabled
+		},
+		database: {
+			generateId: false,
+		},
+	},
 	plugins: [
 		admin({
 			ac,
